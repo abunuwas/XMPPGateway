@@ -9,6 +9,12 @@ import ssl
 
 import sleekxmpp
 
+if sys.version_info < (3, 0):
+	reload(sys)
+	sys.setdefaultencoding('utf8')
+else:
+	raw_input = input
+
 class EchoBot(sleekxmpp.ClientXMPP):
 	"""
 	A simple SleekXMPP bot taht will echo messages it 
@@ -113,7 +119,7 @@ if __name__ == '__main__':
 	xmpp.register_plugin('xep_0199') # XMPP Ping
 
 	# Possible requirement to connect to OpenFire server...
-	# xmpp.ssl_version = ssl.PROTOCOL_SSLv3
+	xmpp.ssl_version = ssl.PROTOCOL_SSLv23
 
 	if xmpp.connect():
 		# If you do not have the dnspython library installed, you will need
