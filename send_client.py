@@ -17,11 +17,11 @@ else:
 
 class SendMsgBot(sleekxmpp.ClientXMPP):
 
-	def __init__(self, jid, password, recipient, msg):
-		super(SendMsgBot, self).__init__(jid, password)
+	def __init__(self, jid, password, recipient, message):
+		sleekxmpp.ClientXMPP.__init__(self, jid, password)
 
 		self.recipient = recipient
-		self.msg = msg
+		self.msg = message
 
 		self.add_event_handler('session_start', self.start)
 
@@ -29,9 +29,23 @@ class SendMsgBot(sleekxmpp.ClientXMPP):
 		self.send_presence()
 		self.get_roster()
 
-		self.send_message(mto=self.recipient, mbody=self.msg)
+		self.send_message(mto=self.recipient, 
+						mbody=self.msg,
+						mtype='chat')
 
 		self.disconnect(wait=True)
+
+if __name__ == '__main__':
+	xmpp = SendMsgBot('user1@localhost', 'mypassword', 'user2@localhost', 'A Message')
+	xmpp.register_plugin('xep_0030')
+	xmpp.register_plugin('xep_0199')
+
+	if xmpp.connect():
+		print('connecting...')
+		xmpp.process(block=True)
+		print('Done')
+	else;
+	print('Unable to connect.')
 
 # To run this script do:
 # python send_client.py -d -j oneshot@example.com -t someone@example.net -m "This is a message"
