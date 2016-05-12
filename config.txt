@@ -1,0 +1,5 @@
+[DEFAULT]
+jid = muc.localhost
+secret = secret
+server = 127.0.0.1
+port = 8888

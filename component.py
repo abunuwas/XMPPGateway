@@ -15,19 +15,21 @@ class EchoBot(ComponentXMPP):
 		ComponentXMPP.__init__(self, jid, password, server, port)
 
 		#self.add_event_handler('session_start', self.start)
-
 		self.add_event_handler('message', self.message)
+
+		self.registerPlugin('xep_0077')
+		self.plugin['xep_0077'].setForm('username', 'password')
 		#self.registerPlugin('feature_mechanisms')
 		#self['feature_mechanisms'].unencrypted_plain = True
 		self.credentials = {}
 		self._stream_feature_handlers = {}
 		self._stream_feature_order = []
 
-	
+	'''
 	def start(self, event):
 		self.send_presence()
-		self.get_roster()
-	
+		#self.get_roster()
+	'''	
 
 	def message(self, msg):
 		print(msg)
